@@ -2,6 +2,10 @@ import { create, emit, DeclarationFlags } from 'dts-dom';
 import { createWriteStream, existsSync, mkdirSync } from 'fs';
 import findType from './utils/findType.js';
 import { databasesClient } from './utils/appwrite.js';
+/**
+ *
+ * @param outDir The directory to output the types to. Defaults to "./types"
+ */
 const fetchNewTypes = async (outDir) => {
     const dir = outDir || "./types";
     // Create folder if non-existent
