@@ -35,22 +35,8 @@
     "template",
     "ts"
   ],
-  "author": "Samuele C. De Tomasi",
+  "author": "Etienne Moureton",
   "license": "MIT",
-  "funding": [
-    {
-      "type": "patreon",
-      "url": "https://www.patreon.com/el3um4s"
-    },
-    {
-      "type": "individual",
-      "url": "https://www.paypal.me/el3um4s"
-    }
-  ],
-  "bugs": {
-    "url": "https://github.com/el3um4s/typescript-npm-package-starter/issues"
-  },
-  "homepage": "https://github.com/el3um4s/typescript-npm-package-starter#readme",
   "devDependencies": {
     "@types/jest": "^29.4.0",
     "@types/node": "^18.13.0",
