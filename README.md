@@ -19,7 +19,7 @@ Make sure ton add the following values to your ```.env``` :
 **A CLI is incoming**
 
 ```javascript
-import { fetchNewTypes } from "fetch-appwrite-types";
+import { fetchNewTypes } from "fetch-appwrite-types/main";
 
 await fetchNewTypes();
 ```
