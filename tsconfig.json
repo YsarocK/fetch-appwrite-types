@@ -1,0 +1,20 @@
+{
+    "ts-node": {
+        "esm": true,
+        "compilerOptions": {
+            "module": "NodeNext",
+            "target": "ES2017",
+            "moduleResolution": "NodeNext",
+            "outDir": "dist",
+        }
+    },
+    "compilerOptions": {
+        // Just to make the lint shut up!
+        "module": "NodeNext",
+        "target": "ES2017",
+        "moduleResolution": "NodeNext",
+        "outDir": "dist",
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "**/__tests__/*"]
+}
