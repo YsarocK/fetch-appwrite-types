@@ -1,6 +1,6 @@
 {
   "name": "fetch-appwrite-types",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "Appwrite types file maker",
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
