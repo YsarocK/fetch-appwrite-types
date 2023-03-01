@@ -1,6 +1,6 @@
 {
   "name": "fetch-appwrite-types",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Appwrite types file maker",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
