@@ -1,5 +1,9 @@
 import { type } from 'dts-dom';
-
+/**
+ * 
+ * @param value 
+ * @returns The type (dts-dom) of the value
+ */
 const findType = (value: any) => {
   // handle null values
   if (value === null) {
