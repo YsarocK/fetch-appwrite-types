@@ -19,9 +19,7 @@
     "check-updates:minor": "npx npm-check-updates --target minor",
     "check-updates:patch": "npx npm-check-updates --target patch"
   },
-  "bin": {
-    "fetch-appwrite-types": "node dist/bin/fetch.js"
-  },
+  "bin":" index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/YsarocK/fetch-appwrite-types"
