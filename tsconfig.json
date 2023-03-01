@@ -17,6 +17,6 @@
         "outDir": "dist",
         "declaration": true
     },
-    "include": ["src"],
+    "include": ["src", "src/bin"],
     "exclude": ["node_modules", "**/__tests__/*"]
 }
