@@ -1,6 +1,11 @@
 # Generate Typesript file from your Appwrite Databases 
 
-## Install
+## Quick usage
+```bash
+npx fetch-appwrite-types
+```
+
+## Installation
 ```bash
 # yarn
 yarn add fetch-appwrite-types
@@ -9,15 +14,13 @@ yarn add fetch-appwrite-types
 npm install fetch-appwrite-types
 ```
 
+### Config
 Make sure ton add the following values to your ```.env``` :
 ```APPWRITE_ENDPOINT```
 ```APPWRITE_PROJECT_ID```
 ```APPWRITE_API_KEY```
 
-## Usage
-
-**A CLI is incoming**
-
+### Usage
 ```javascript
 import { fetchNewTypes } from "fetch-appwrite-types/dist/main";
 
