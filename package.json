@@ -2,8 +2,8 @@
   "name": "fetch-appwrite-types",
   "version": "0.1.13",
   "description": "Appwrite types file maker",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
   "type": "module",
   "scripts": {
     "dev": "npx ts-node src/index.ts",
