@@ -27,7 +27,7 @@
     "url": "git+https://github.com/YsarocK/fetch-appwrite-types"
   },
   "files": [
-    "lib/**/*"
+    "dist/**/*"
   ],
   "keywords": [
     "typescript",
