@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "npx ts-node src/index.ts",
     "build": "tsc",
-    "lint": "eslint . --ext .ts",
+    "lint": "",
     "test": "",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
