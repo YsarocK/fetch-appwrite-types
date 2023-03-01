@@ -1,6 +1,6 @@
 {
   "name": "fetch-appwrite-types",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "Appwrite types file maker",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,7 +19,7 @@
     "check-updates:minor": "npx npm-check-updates --target minor",
     "check-updates:patch": "npx npm-check-updates --target patch"
   },
-  "bin":" index.js",
+  "bin": " index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/YsarocK/fetch-appwrite-types"
