@@ -1,2 +1,2 @@
-declare const fetchNewTypes: (outDir?: string) => Promise<void>;
-export { fetchNewTypes };
+#! /usr/bin/env node
+export {};
