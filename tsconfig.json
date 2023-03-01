@@ -6,6 +6,7 @@
             "target": "ES2017",
             "moduleResolution": "NodeNext",
             "outDir": "dist",
+            "declaration": true
         }
     },
     "compilerOptions": {
@@ -14,6 +15,7 @@
         "target": "ES2017",
         "moduleResolution": "NodeNext",
         "outDir": "dist",
+        "declaration": true
     },
     "include": ["src"],
     "exclude": ["node_modules", "**/__tests__/*"]
