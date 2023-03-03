@@ -1,4 +1,4 @@
-import { type } from 'dts-dom';
+import { type } from 'dts-dom-custom';
 /**
  *
  * @param value
