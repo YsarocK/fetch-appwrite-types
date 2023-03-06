@@ -1,33 +1,40 @@
-import { type } from 'dts-dom-custom';
+import { type } from 'dts-dom';
+import type { Attribute } from '../types/Attribute.js';
 /**
  * 
  * @param value 
  * @returns The type (dts-dom) of the value
  */
-const findType = (value: any) => {
+
+const findType = (attribute: Attribute) => {
   // handle null values
-  if (value === null) {
+  if (attribute.type === null) {
     return type.null
   }
 
+  // handle strings
+  if (attribute.type === 'string') {
+    return type.string
+  }
+
   // handle arrays
-  if (value instanceof Array) {
+  if (attribute.array === true) {
     return type.array(type.any)
   }
 
-  // others types
-  if (value) {
-    const objType = typeof value
-    switch (objType) {
-      case "bigint":
-        return type.number;
-      case "symbol":
-        return type.undefined;
-      case "function":
-        return type.undefined;
-      default:
-        return type[objType]
-    }
+  // handle email
+  if (attribute.format && attribute.format === 'email') {
+    return type.any
+  }
+
+  // handle integer & double
+  if (attribute.type === 'integer' || attribute.type === 'double') {
+    return type.number
+  }
+
+  // handle boolean
+  if (attribute.type === 'boolean') {
+    return type.boolean
   }
 
   return type.any

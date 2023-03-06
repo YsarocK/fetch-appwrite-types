@@ -2,6 +2,7 @@ import { create, emit, DeclarationFlags } from 'dts-dom';
 import { createWriteStream, existsSync, mkdirSync } from 'fs';
 import findType from './utils/findType.js';
 import { databasesClient } from './utils/appwrite.js';
+import { Attribute } from './types/Attribute.js';
 
 /**
  * 
@@ -34,9 +35,9 @@ const fetchNewTypes = async (outDir?: string) => {
       const intf = create.interface(collectionName, DeclarationFlags.Export);
       const { attributes } = await databasesClient.listAttributes(databaseId, collectionId)
       for (const attr of attributes) {
-        const arrtObj = JSON.parse(JSON.stringify(attr))
+        const attribute: Attribute = JSON.parse(JSON.stringify(attr))
         // Push attribute to interface
-        intf.members.push(create.property(arrtObj.key, findType(arrtObj.type), arrtObj.required === false && DeclarationFlags.Optional));
+        intf.members.push(create.property(attribute.key, findType(attribute), attribute.required === false && DeclarationFlags.Optional));
       }
 
       // Write interface to file
