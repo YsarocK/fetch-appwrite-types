@@ -19,7 +19,7 @@ const findType = (attribute) => {
     }
     // handle email
     if (attribute.format && attribute.format === 'email') {
-        return type.any;
+        return type.string;
     }
     // handle integer & double
     if (attribute.type === 'integer' || attribute.type === 'double') {
