@@ -4,26 +4,28 @@ import findType from './utils/findType.js';
 import { databasesClient } from './utils/appwrite.js';
 import { Attribute } from './types/Attribute.js';
 
+interface fetchParameters { outDir?: string, includeDBName?: boolean }
+
 /**
  * 
  * @param outDir The directory to output the types to. Defaults to "./types"
+ * @param includeDBName Should exported interfaces include the database name as prefix? Defaults to false
  */
-const fetchNewTypes = async (outDir?: string) => {
-  const dir = outDir || "./types";
-
+const fetchNewTypes = async ({ outDir = './types', includeDBName = false }: fetchParameters = {}) => {
   // Create folder if non-existent
-  if (!existsSync(dir)) {
-    mkdirSync(dir);
+  if (!existsSync(outDir)) {
+    mkdirSync(outDir);
   }
 
   // Empty the file
-  const writeStream = createWriteStream(`${dir}/appwrite.ts`);
+  const writeStream = createWriteStream(`${outDir}/appwrite.ts`);
   writeStream.write("")
 
   // Iterate over all databases & collections
   const { databases } = await databasesClient.list();
   for (const db of databases) {
     const databaseId = db.$id;
+    const databaseName = db.name;
     console.log(`Fetching collection for database ${db.name}...`)
     const { collections } = await databasesClient.listCollections(databaseId)
     for (const col of collections) {
@@ -32,7 +34,9 @@ const fetchNewTypes = async (outDir?: string) => {
       console.log(`Fetching types for collection ${col.name}...`)
 
       // Create interface
-      const intf = create.interface(collectionName, DeclarationFlags.Export);
+      const intfName = includeDBName ? `${databaseName}${collectionName}` : collectionName
+      const intf = create.interface(intfName, DeclarationFlags.Export);
+
       const { attributes } = await databasesClient.listAttributes(databaseId, collectionId)
       for (const attr of attributes) {
         const attribute: Attribute = JSON.parse(JSON.stringify(attr))
@@ -41,7 +45,7 @@ const fetchNewTypes = async (outDir?: string) => {
       }
 
       // Write interface to file
-      const writeStream = createWriteStream(`${dir}/appwrite.ts`, { flags: 'a' });
+      const writeStream = createWriteStream(`${outDir}/appwrite.ts`, { flags: 'a' });
       writeStream.write(emit(intf))
     };
   }
