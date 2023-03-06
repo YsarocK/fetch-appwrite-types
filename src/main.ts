@@ -2,7 +2,7 @@ import { create, emit, DeclarationFlags } from 'dts-dom';
 import { createWriteStream, existsSync, mkdirSync } from 'fs';
 import findType from './utils/findType.js';
 import { databasesClient } from './utils/appwrite.js';
-import { Attribute } from './types/Attribute.js';
+import type { Attribute } from './types/Attribute.js';
 
 interface fetchParameters { outDir?: string, includeDBName?: boolean }
 

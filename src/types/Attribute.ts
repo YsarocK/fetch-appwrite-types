@@ -1,4 +1,4 @@
-export interface Attribute {
+export type Attribute = {
   key: string,
   type: string,
   status: string,
