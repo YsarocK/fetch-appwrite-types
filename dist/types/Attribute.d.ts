@@ -1,4 +1,4 @@
-export interface Attribute {
+export type Attribute = {
     key: string;
     type: string;
     status: string;
@@ -10,4 +10,4 @@ export interface Attribute {
     format?: string;
     elements?: string;
     size?: number;
-}
+};
