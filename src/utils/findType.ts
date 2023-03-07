@@ -4,11 +4,13 @@ import appendType from './appendType.js';
 
 /**
  * 
- * @param value 
+ * Add the type of the value to the types file when Email or URL is detected
+ * @param attribute The attribute to find the type of
+ * @param filePath The path to the types file 
  * @returns The type (dts-dom) of the value
  */
 
-const findType = async (attribute: Attribute, filePath: string) => {
+const findAndAddType = async (attribute: Attribute, filePath: string) => {
   // handle null values
   if (attribute.type === null) {
     return type.null
@@ -48,4 +50,4 @@ const findType = async (attribute: Attribute, filePath: string) => {
   return type.any
 }
 
-export default findType;
+export default findAndAddType;
