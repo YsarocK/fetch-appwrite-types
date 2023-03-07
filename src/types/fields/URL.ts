@@ -1,0 +1,1 @@
+export type URL = `http://${string}.${string}` | `https://${string}.${string}`;

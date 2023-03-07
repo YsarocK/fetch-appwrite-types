@@ -1,12 +1,14 @@
 import { type } from 'dts-dom';
 import type { Attribute } from '../types/Attribute.js';
+import appendType from './appendType.js';
+
 /**
  * 
  * @param value 
  * @returns The type (dts-dom) of the value
  */
 
-const findType = (attribute: Attribute) => {
+const findType = async (attribute: Attribute, filePath: string) => {
   // handle null values
   if (attribute.type === null) {
     return type.null
@@ -14,17 +16,23 @@ const findType = (attribute: Attribute) => {
 
   // handle strings
   if (attribute.type === 'string') {
+    // handle email
+    if (attribute.format) {
+      switch (attribute.format) {
+        case 'email':
+          await appendType('Email', filePath)
+          break;
+        case "url":
+          await appendType('URL', filePath)
+          break;
+      }
+    }
     return type.string
   }
 
   // handle arrays
   if (attribute.array === true) {
     return type.array(type.any)
-  }
-
-  // handle email
-  if (attribute.format && attribute.format === 'email') {
-    return type.string
   }
 
   // handle integer & double

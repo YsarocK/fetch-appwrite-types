@@ -1,8 +1,9 @@
 import { create, emit, DeclarationFlags } from 'dts-dom';
-import { createWriteStream, existsSync, mkdirSync } from 'fs';
+import { createWriteStream, existsSync, mkdirSync, readFileSync } from 'fs';
 import findType from './utils/findType.js';
 import { databasesClient } from './utils/appwrite.js';
 import type { Attribute } from './types/Attribute.js';
+import appendType from './utils/appendType.js';
 
 interface fetchParameters { outDir?: string, includeDBName?: boolean }
 
@@ -17,12 +18,15 @@ const fetchNewTypes = async ({ outDir = './types', includeDBName = false }: fetc
     mkdirSync(outDir);
   }
 
+  const filePath = `${outDir}/appwrite.ts`
+
   // Empty the file
-  const writeStream = createWriteStream(`${outDir}/appwrite.ts`);
+  const writeStream = createWriteStream(filePath);
   writeStream.write("")
 
   // Iterate over all databases & collections
   const { databases } = await databasesClient.list();
+
   for (const db of databases) {
     const databaseId = db.$id;
     const databaseName = db.name;
@@ -40,15 +44,18 @@ const fetchNewTypes = async ({ outDir = './types', includeDBName = false }: fetc
       const { attributes } = await databasesClient.listAttributes(databaseId, collectionId)
       for (const attr of attributes) {
         const attribute: Attribute = JSON.parse(JSON.stringify(attr))
+        const attributeType = await findType(attribute, filePath)
         // Push attribute to interface
-        intf.members.push(create.property(attribute.key, findType(attribute), attribute.required === false && DeclarationFlags.Optional));
+        intf.members.push(create.property(attribute.key, attributeType, attribute.required === false && DeclarationFlags.Optional));
       }
 
       // Write interface to file
-      const writeStream = createWriteStream(`${outDir}/appwrite.ts`, { flags: 'a' });
+      const writeStream = createWriteStream(filePath, { flags: 'a' });
       writeStream.write(emit(intf))
     };
   }
 }
+
+await fetchNewTypes()
 
 export { fetchNewTypes }
