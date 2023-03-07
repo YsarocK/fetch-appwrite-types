@@ -1,4 +1,7 @@
-# Generate Typesript file from your Appwrite Databases 
+# Generate Typesript file from your Appwrite Databases
+
+![npm](https://img.shields.io/npm/dt/fetch-appwrite-types)
+![npm](https://img.shields.io/npm/v/fetch-appwrite-types)
 
 ## Quick usage
 ```bash
