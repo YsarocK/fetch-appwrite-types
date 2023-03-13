@@ -1,9 +1,13 @@
 import { fetchNewTypes } from '../dist/main';
 import { existsSync, readFileSync, rmdirSync } from 'fs';
+import { fn } from 'jest-mock';
 
 if (existsSync('./types')) {
   rmdirSync('./types', { recursive: true });
 }
+
+console.log = fn();
+
 const res = await fetchNewTypes();
 await fetchNewTypes({ outDir: './types/custom', includeDBName: true });
 
