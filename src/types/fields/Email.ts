@@ -1,3 +1,3 @@
 type Email = `${string}@${string}.${string}`;
 
-export default Email
+export default Email;

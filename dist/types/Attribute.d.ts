@@ -4,7 +4,7 @@ export type Attribute = {
     status: string;
     required: boolean;
     array: boolean;
-    default: any;
+    default: string | number | boolean;
     min?: number;
     max?: number;
     format?: string;

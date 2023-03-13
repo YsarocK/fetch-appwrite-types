@@ -19,36 +19,36 @@ const fetchNewTypes = async ({ outDir = './types', includeDBName = false }: fetc
 
   // Empty the file
   const writeStream = createWriteStream(`${outDir}/appwrite.ts`);
-  writeStream.write("")
+  writeStream.write("");
 
   // Iterate over all databases & collections
   const { databases } = await databasesClient.list();
   for (const db of databases) {
     const databaseId = db.$id;
     const databaseName = db.name;
-    console.log(`Fetching collection for database ${db.name}...`)
-    const { collections } = await databasesClient.listCollections(databaseId)
+    console.log(`Fetching collection for database ${db.name}...`); // eslint-disable-line no-console
+    const { collections } = await databasesClient.listCollections(databaseId);
     for (const col of collections) {
       const collectionId = col.$id;
       const collectionName = col.name;
-      console.log(`Fetching types for collection ${col.name}...`)
+      console.log(`Fetching types for collection ${col.name}...`); // eslint-disable-line no-console
 
       // Create interface
-      const intfName = includeDBName ? `${databaseName}${collectionName}` : collectionName
+      const intfName = includeDBName ? `${databaseName}${collectionName}` : collectionName;
       const intf = create.interface(intfName, DeclarationFlags.Export);
 
-      const { attributes } = await databasesClient.listAttributes(databaseId, collectionId)
+      const { attributes } = await databasesClient.listAttributes(databaseId, collectionId);
       for (const attr of attributes) {
-        const attribute: Attribute = JSON.parse(JSON.stringify(attr))
+        const attribute: Attribute = JSON.parse(JSON.stringify(attr));
         // Push attribute to interface
         intf.members.push(create.property(attribute.key, findType(attribute), attribute.required === false && DeclarationFlags.Optional));
       }
 
       // Write interface to file
       const writeStream = createWriteStream(`${outDir}/appwrite.ts`, { flags: 'a' });
-      writeStream.write(emit(intf))
-    };
+      writeStream.write(emit(intf));
+    }
   }
-}
+};
 
-export { fetchNewTypes }
+export { fetchNewTypes };

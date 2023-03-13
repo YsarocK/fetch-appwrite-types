@@ -6,9 +6,11 @@
   "types": "dist/main.d.ts",
   "type": "module",
   "scripts": {
+    "deploy": "npm run lint && np",
     "dev": "npx ts-node src/main.ts",
     "build": "tsc",
-    "lint": "",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "npm run lint -- --fix",
     "test": "",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",

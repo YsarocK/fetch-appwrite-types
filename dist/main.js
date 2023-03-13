@@ -20,12 +20,12 @@ const fetchNewTypes = async ({ outDir = './types', includeDBName = false } = {})
     for (const db of databases) {
         const databaseId = db.$id;
         const databaseName = db.name;
-        console.log(`Fetching collection for database ${db.name}...`);
+        console.log(`Fetching collection for database ${db.name}...`); // eslint-disable-line no-console
         const { collections } = await databasesClient.listCollections(databaseId);
         for (const col of collections) {
             const collectionId = col.$id;
             const collectionName = col.name;
-            console.log(`Fetching types for collection ${col.name}...`);
+            console.log(`Fetching types for collection ${col.name}...`); // eslint-disable-line no-console
             // Create interface
             const intfName = includeDBName ? `${databaseName}${collectionName}` : collectionName;
             const intf = create.interface(intfName, DeclarationFlags.Export);
@@ -39,7 +39,6 @@ const fetchNewTypes = async ({ outDir = './types', includeDBName = false } = {})
             const writeStream = createWriteStream(`${outDir}/appwrite.ts`, { flags: 'a' });
             writeStream.write(emit(intf));
         }
-        ;
     }
 };
 export { fetchNewTypes };
