@@ -49,6 +49,8 @@ const fetchNewTypes = async ({ outDir = './types', includeDBName = false }: fetc
       writeStream.write(emit(intf));
     }
   }
+
+  return 'file generated successfully';
 };
 
 export { fetchNewTypes };
