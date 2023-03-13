@@ -23,14 +23,17 @@ const fetchNewTypes = async ({ outDir = './types', includeDBName = false }: fetc
 
   // Iterate over all databases & collections
   const { databases } = await databasesClient.list();
+
   for (const db of databases) {
-    const databaseId = db.$id;
-    const databaseName = db.name;
+    const { $id: databaseId, name: databaseName } = db;
+
     console.log(`Fetching collection for database ${db.name}...`); // eslint-disable-line no-console
+
     const { collections } = await databasesClient.listCollections(databaseId);
+
     for (const col of collections) {
-      const collectionId = col.$id;
-      const collectionName = col.name;
+      const { $id: collectionId, name: collectionName } = col;
+
       console.log(`Fetching types for collection ${col.name}...`); // eslint-disable-line no-console
 
       // Create interface
@@ -38,8 +41,10 @@ const fetchNewTypes = async ({ outDir = './types', includeDBName = false }: fetc
       const intf = create.interface(intfName, DeclarationFlags.Export);
 
       const { attributes } = await databasesClient.listAttributes(databaseId, collectionId);
+
       for (const attr of attributes) {
         const attribute: Attribute = JSON.parse(JSON.stringify(attr));
+
         // Push attribute to interface
         intf.members.push(create.property(attribute.key, findType(attribute), attribute.required === false && DeclarationFlags.Optional));
       }
