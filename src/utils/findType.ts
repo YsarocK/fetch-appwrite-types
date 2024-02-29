@@ -1,12 +1,13 @@
 import { type } from 'dts-dom';
 import type { Attribute } from '../types/Attribute.js';
 /**
- * 
- * @param value 
+ *
+ * @param value
  * @returns The type (dts-dom) of the value
  */
 
 const findType = (attribute: Attribute) => {
+
   // handle null values
   if (attribute.type === null) {
     return type.null;
@@ -14,6 +15,9 @@ const findType = (attribute: Attribute) => {
 
   // handle strings
   if (attribute.type === 'string') {
+    if(attribute.format === 'enum') {
+      // handle enum
+    }
     return type.string;
   }
 
