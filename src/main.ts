@@ -46,7 +46,7 @@ const fetchNewTypes = async ({ outDir = './types', includeDBName = false }: fetc
         const attribute: Attribute = JSON.parse(JSON.stringify(attr));
 
         // Push attribute to interface
-        intf.members.push(findType(attribute));
+        intf.members.push(findType(attribute, outDir, intfName));
       }
 
       // Write interface to file
