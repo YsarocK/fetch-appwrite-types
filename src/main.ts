@@ -7,7 +7,7 @@ import type { Attribute } from './types/Attribute.js';
 interface fetchParameters { outDir?: string, includeDBName?: boolean }
 
 /**
- * 
+ *
  * @param outDir The directory to output the types to. Defaults to "./types"
  * @param includeDBName Should exported interfaces include the database name as prefix? Defaults to false
  */
@@ -46,7 +46,7 @@ const fetchNewTypes = async ({ outDir = './types', includeDBName = false }: fetc
         const attribute: Attribute = JSON.parse(JSON.stringify(attr));
 
         // Push attribute to interface
-        intf.members.push(create.property(attribute.key, findType(attribute), attribute.required === false && DeclarationFlags.Optional));
+        intf.members.push(findType(attribute));
       }
 
       // Write interface to file
@@ -57,5 +57,7 @@ const fetchNewTypes = async ({ outDir = './types', includeDBName = false }: fetc
 
   return 'file generated successfully';
 };
+
+await fetchNewTypes()
 
 export { fetchNewTypes };
