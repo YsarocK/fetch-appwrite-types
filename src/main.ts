@@ -58,6 +58,4 @@ const fetchNewTypes = async ({ outDir = './types', includeDBName = false }: fetc
   return 'file generated successfully';
 };
 
-await fetchNewTypes();
-
 export { fetchNewTypes };
