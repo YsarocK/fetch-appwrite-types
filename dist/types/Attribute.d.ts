@@ -8,6 +8,6 @@ export type Attribute = {
     min?: number;
     max?: number;
     format?: string;
-    elements?: string;
+    elements?: Array<string>;
     size?: number;
 };

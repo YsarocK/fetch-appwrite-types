@@ -31,7 +31,7 @@ const fetchNewTypes = async ({ outDir = './types', includeDBName = false } = {})
             for (const attr of attributes) {
                 const attribute = JSON.parse(JSON.stringify(attr));
                 // Push attribute to interface
-                intf.members.push(create.property(attribute.key, findType(attribute), attribute.required === false && DeclarationFlags.Optional));
+                intf.members.push(findType(attribute, outDir, intfName));
             }
             // Write interface to file
             const writeStream = createWriteStream(`${outDir}/appwrite.ts`, { flags: 'a' });
@@ -40,4 +40,5 @@ const fetchNewTypes = async ({ outDir = './types', includeDBName = false } = {})
     }
     return 'file generated successfully';
 };
+await fetchNewTypes();
 export { fetchNewTypes };
