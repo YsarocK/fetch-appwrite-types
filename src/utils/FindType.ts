@@ -15,6 +15,11 @@ const FindType = (attribute: Attribute, outDir: string, intfName: string) => {
     return create.property(attribute.key, type.null, attribute.required === false && DeclarationFlags.Optional);
   }
 
+  // handle null values
+  if (attribute.type === "datetime") {
+    return create.property(attribute.key, create.namedTypeReference('Date'), attribute.required === false && DeclarationFlags.Optional);
+  }
+
   // handle related collections
   if(attribute.relatedCollection) {
     return create.property(attribute.key, create.namedTypeReference(attribute.relatedCollection), attribute.required === false && DeclarationFlags.Optional);
