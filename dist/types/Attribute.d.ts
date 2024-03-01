@@ -10,4 +10,5 @@ export type Attribute = {
     format?: string;
     elements?: Array<string>;
     size?: number;
+    relatedCollection?: string;
 };

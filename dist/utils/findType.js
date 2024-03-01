@@ -5,12 +5,21 @@ import { createWriteStream } from "fs";
  * @param value
  * @returns The type (dts-dom) of the value
  */
-const findType = (attribute, outDir, intfName) => {
+const FindType = (attribute, outDir, intfName) => {
     const writeStream = createWriteStream(`${outDir}/appwrite.ts`, { flags: 'a' });
     // handle null values
     if (attribute.type === null) {
         return create.property(attribute.key, type.null, attribute.required === false && DeclarationFlags.Optional);
     }
+    // handle null values
+    if (attribute.type === "datetime") {
+        return create.property(attribute.key, create.namedTypeReference('Date'), attribute.required === false && DeclarationFlags.Optional);
+    }
+    // handle related collections
+    if (attribute.relatedCollection) {
+        return create.property(attribute.key, create.namedTypeReference(attribute.relatedCollection), attribute.required === false && DeclarationFlags.Optional);
+    }
+    // handle enums
     if (attribute.format === 'enum') {
         const EnumName = `${intfName}_${attribute.key}`;
         const EnumType = create.enum(EnumName, false, DeclarationFlags.Export);
@@ -42,4 +51,4 @@ const findType = (attribute, outDir, intfName) => {
     }
     return create.property(attribute.key, type.any, attribute.required === false && DeclarationFlags.Optional);
 };
-export default findType;
+export default FindType;
