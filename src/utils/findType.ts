@@ -1,6 +1,6 @@
 import { create, DeclarationFlags, emit, type } from 'dts-dom';
-import type { Attribute } from '../types/Attribute.js';
-import {createWriteStream} from "fs";
+import type { Attribute } from '../types/index.js';
+import { createWriteStream } from "fs";
 /**
  *
  * @param value
