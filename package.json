@@ -7,7 +7,7 @@
   "types": "dist/main.d.ts",
   "type": "module",
   "scripts": {
-    "deploy": "npm run lint && np",
+    "deploy": "npm run prepare && np",
     "dev": "npx ts-node src/main.ts",
     "build": "tsc",
     "lint": "eslint . --ext .ts",
