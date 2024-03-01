@@ -3,11 +3,13 @@ import type { Attribute } from '../types/index.js';
 import { createWriteStream } from "fs";
 /**
  *
- * @param value
+ * @param attribute The attribute to find the type of
+ * @param outDir The directory to output the types to
+ * @param intfName The name of the interface
  * @returns The type (dts-dom) of the value
  */
 
-const FindType = (attribute: Attribute, outDir: string, intfName: string) => {
+const FindType = (attribute: Attribute, outDir: string, intfName: string, hardTypes: boolean) => {
   const writeStream = createWriteStream(`${outDir}/appwrite.ts`, { flags: 'a' });
 
   // handle null values
@@ -38,6 +40,22 @@ const FindType = (attribute: Attribute, outDir: string, intfName: string) => {
     return create.property(attribute.key, create.namedTypeReference(EnumName), attribute.required === false && DeclarationFlags.Optional);
   }
 
+  // handle email
+  if (attribute.format && attribute.format === 'url') {
+    if(hardTypes) {
+      return create.property(attribute.key, create.namedTypeReference('URL'), attribute.required === false && DeclarationFlags.Optional);
+    }
+    return create.property(attribute.key, type.string, attribute.required === false && DeclarationFlags.Optional);
+  }
+
+  // handle email
+  if (attribute.format && attribute.format === 'email') {
+    if(hardTypes) {
+      return create.property(attribute.key, create.namedTypeReference('Email'), attribute.required === false && DeclarationFlags.Optional);
+    }
+    return create.property(attribute.key, type.string, attribute.required === false && DeclarationFlags.Optional);
+  }
+
   // handle strings
   if (attribute.type === 'string') {
     return create.property(attribute.key, type.string, attribute.required === false && DeclarationFlags.Optional);
@@ -48,10 +66,6 @@ const FindType = (attribute: Attribute, outDir: string, intfName: string) => {
     return create.property(attribute.key, type.array(type.any), attribute.required === false && DeclarationFlags.Optional);
   }
 
-  // handle email
-  if (attribute.format && attribute.format === 'email') {
-    return create.property(attribute.key, type.string, attribute.required === false && DeclarationFlags.Optional);
-  }
 
   // handle integer & double
   if (attribute.type === 'integer' || attribute.type === 'double') {

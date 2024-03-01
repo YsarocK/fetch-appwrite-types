@@ -1,5 +1,7 @@
 #! /usr/bin/env node
-// import { argv } from "node:process";
+import { argv } from "node:process";
 import { FetchNewTypes } from "../main.js";
+import type { FetchParameters } from "../types/index.js";
 
-await FetchNewTypes();
+const args = argv.slice(2) as FetchParameters;
+await FetchNewTypes(args);
