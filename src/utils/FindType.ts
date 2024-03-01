@@ -15,6 +15,12 @@ const FindType = (attribute: Attribute, outDir: string, intfName: string) => {
     return create.property(attribute.key, type.null, attribute.required === false && DeclarationFlags.Optional);
   }
 
+  // handle related collections
+  if(attribute.relatedCollection) {
+    return create.property(attribute.key, create.namedTypeReference(attribute.relatedCollection), attribute.required === false && DeclarationFlags.Optional);
+  }
+
+  // handle enums
   if(attribute.format === 'enum') {
     const EnumName = `${intfName}_${attribute.key}`;
     const EnumType = create.enum(EnumName, false, DeclarationFlags.Export);
