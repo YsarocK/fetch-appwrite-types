@@ -12,7 +12,7 @@ consola.wrapAll();
  * @param outDir The directory to output the types to. Defaults to "./types"
  * @param includeDBName Should exported interfaces include the database name as prefix? Defaults to false
  */
-const fetchNewTypes = async ({ outDir = './types', includeDBName = false }: FetchParameters = {}) => {
+const FetchNewTypes = async ({ outDir = './types', includeDBName = false }: FetchParameters = {}) => {
   // Create folder if non-existent
   if (!existsSync(outDir)) {
     mkdirSync(outDir);
@@ -67,6 +67,6 @@ const fetchNewTypes = async ({ outDir = './types', includeDBName = false }: Fetc
   return 'file generated successfully';
 };
 
-await fetchNewTypes();
+await FetchNewTypes();
 
-export { fetchNewTypes };
+export { FetchNewTypes };
