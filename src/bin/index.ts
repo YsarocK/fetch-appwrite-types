@@ -5,7 +5,7 @@ import type { FetchParameters } from "../types/index.js";
 
 const args = argv.slice(2);
 
-const opts: FetchParameters = {}
+const opts: FetchParameters = {};
 
 if(args.includes("hardTypes")) {
   opts.hardTypes = true;

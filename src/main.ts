@@ -3,7 +3,7 @@ import { createWriteStream, existsSync, mkdirSync } from 'fs';
 import consola from "consola";
 import FindType from './utils/findType.js';
 import { databasesClient } from './utils/appwrite.js';
-import type { Attribute, FetchParameters} from "./types/index.js";
+import type { Attribute, FetchParameters } from "./types/index.js";
 import CreateHardFieldsTypes from "./utils/CreateHardFieldsTypes.js";
 
 consola.wrapAll();
@@ -14,7 +14,7 @@ consola.wrapAll();
  * @param includeDBName Should exported interfaces include the database name as prefix? Defaults to false
  * @param hardTypes Email & URL strongly-typed. See doc for more. Defaults to false
  */
-const FetchNewTypes = async ({ outDir = './types', includeDBName = false , hardTypes = false } = {}) => {
+const FetchNewTypes = async ({ outDir = './types', includeDBName = false , hardTypes = false }: FetchParameters = {}) => {
   // Create folder if non-existent
   if (!existsSync(outDir)) {
     mkdirSync(outDir);

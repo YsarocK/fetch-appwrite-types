@@ -1,15 +1,17 @@
 import { create, emit, DeclarationFlags } from 'dts-dom';
 import { createWriteStream, existsSync, mkdirSync } from 'fs';
-import findType from './utils/findType.js';
-import { databasesClient } from './utils/appwrite.js';
 import consola from "consola";
+import FindType from './utils/findType.js';
+import { databasesClient } from './utils/appwrite.js';
+import CreateHardFieldsTypes from "./utils/CreateHardFieldsTypes.js";
 consola.wrapAll();
 /**
  *
  * @param outDir The directory to output the types to. Defaults to "./types"
  * @param includeDBName Should exported interfaces include the database name as prefix? Defaults to false
+ * @param hardTypes Email & URL strongly-typed. See doc for more. Defaults to false
  */
-const FetchNewTypes = async ({ outDir = './types', includeDBName = false } = {}) => {
+const FetchNewTypes = async ({ outDir = './types', includeDBName = false, hardTypes = false } = {}) => {
     // Create folder if non-existent
     if (!existsSync(outDir)) {
         mkdirSync(outDir);
@@ -17,6 +19,9 @@ const FetchNewTypes = async ({ outDir = './types', includeDBName = false } = {})
     // Empty the file
     const writeStream = createWriteStream(`${outDir}/appwrite.ts`);
     writeStream.write("");
+    if (hardTypes) {
+        CreateHardFieldsTypes(outDir);
+    }
     // Iterate over all databases & collections
     const { databases } = await databasesClient.list();
     consola.warn("All types are not actually handled. Some might return 'any' type. Please check the generated file and update the types manually. Check the documentation for more information.");
@@ -34,7 +39,7 @@ const FetchNewTypes = async ({ outDir = './types', includeDBName = false } = {})
             for (const attr of attributes) {
                 const attribute = JSON.parse(JSON.stringify(attr));
                 // Push attribute to interface
-                intf.members.push(findType(attribute, outDir, intfName));
+                intf.members.push(FindType(attribute, outDir, intfName, hardTypes, includeDBName, databaseName));
             }
             // Write interface to file
             const writeStream = createWriteStream(`${outDir}/appwrite.ts`, { flags: 'a' });
@@ -46,5 +51,4 @@ const FetchNewTypes = async ({ outDir = './types', includeDBName = false } = {})
     consola.success('All types fetched successfully');
     return 'file generated successfully';
 };
-await FetchNewTypes();
 export { FetchNewTypes };
