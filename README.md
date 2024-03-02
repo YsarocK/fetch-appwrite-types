@@ -38,11 +38,11 @@ await FetchNewTypes();
 ```
 
 ## Parameters
-| Name    | Default value            | Description                                |
-|---------|--------------------------|--------------------------------------------|
-| outDir  | ```"/types"``` | The folder where the type file will be generated |
-| includeDBName | ```false```              | Add the collection name at start of types  |
-| hardTypes   | ```false```              | Creates an Email type and an URL types     |
+| Name    | Default value            | Description                                       |
+|---------|--------------------------|---------------------------------------------------|
+| outDir  | ```"/types"``` | The folder where the type file will be generated  |
+| includeDBName | ```false```              | Add the collection name at start of types         |
+| hardTypes   | ```false```              | Creates an Email type and an URL types. [More](#hard-types). |
 
 ### Usage
 #### CLI
@@ -62,15 +62,23 @@ await FetchNewTypes({
 
 ## Handled types
 
-| Appwrite type | Generated type (simple) | Generated type (hard) |
-|---------------|-------------------------|-----------------------|
-| String        | ```string```                  | ```string```                |
-| Integer       | ```integer```                 | ```integer```               |
-| Float         | ```integer```                 | ```integer```               |
-| Boolean       | ```boolean```                 | ```boolean```               |
-| DateTime      | ```string```                  | ```Date```                  |
-| Email         | ```string```                  | ```Email```                 |
-| IP            | ```string```                  | ```string```                |
-| URL           | ```string```                  | ```string```                |
-| Enum          | ```Enum```                    | ```Enum```                  |
-| Relationship  | Reference to Type       | Reference to Type     |
+| Appwrite type | Generated type (simple) | Generated type (hard)      |
+|---------------|-------------------------|----------------------------|
+| String        | ```string```                  | ```string```               |
+| Integer       | ```integer```                 | ```integer```              |
+| Float         | ```integer```                 | ```integer```              |
+| Boolean       | ```boolean```                 | ```boolean```              |
+| DateTime      | ```string```                  | ```Date```                 |
+| Email         | ```string```                  | [```Email```](#hard-types) |
+| IP            | ```string```                  | ```string```               |
+| URL           | ```string```                  | [```URL```](#hard-types)   |
+| Enum          | ```Enum```                    | ```Enum```                 |
+| Relationship  | Reference to Type       | Reference to Type          |
+
+### Hard types
+The hard types are types that are not native to typescript, but are often used in the context of a web application. They are generated as classes with methods to validate and parse the data.
+
+| Name | Value |
+|------|-------|
+| Email | ```${string}@${string}.${string}`'``` |
+| URL | ```${string}://${string}.${string}``` |
