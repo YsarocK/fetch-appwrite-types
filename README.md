@@ -80,5 +80,5 @@ The hard types are types that are not native to typescript, but are often used i
 
 | Name | Value |
 |------|-------|
-| Email | ```${string}@${string}.${string}`'``` |
+| Email | ```${string}@${string}.${string}``` |
 | URL | ```${string}://${string}.${string}``` |
