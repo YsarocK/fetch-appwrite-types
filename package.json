@@ -1,6 +1,6 @@
 {
   "name": "fetch-appwrite-types",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "description": "Appwrite types file maker",
   "author": "Etienne Moureton",
   "main": "dist/main.js",
