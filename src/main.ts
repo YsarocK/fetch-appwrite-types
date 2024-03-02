@@ -14,7 +14,7 @@ consola.wrapAll();
  * @param includeDBName Should exported interfaces include the database name as prefix? Defaults to false
  * @param hardTypes Email & URL strongly-typed. See doc for more. Defaults to false
  */
-const FetchNewTypes = async ({ outDir = './types', includeDBName = false , hardTypes = false }: FetchParameters = {}) => {
+const FetchNewTypes = async ({ outDir = './types', includeDBName = false , hardTypes = false } = {}) => {
   // Create folder if non-existent
   if (!existsSync(outDir)) {
     mkdirSync(outDir);
@@ -25,7 +25,7 @@ const FetchNewTypes = async ({ outDir = './types', includeDBName = false , hardT
   writeStream.write("");
 
   if(hardTypes) {
-    CreateHardFieldsTypes(writeStream);
+    CreateHardFieldsTypes(outDir);
   }
 
   // Iterate over all databases & collections

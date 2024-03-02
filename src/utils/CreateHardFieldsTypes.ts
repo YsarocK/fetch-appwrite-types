@@ -1,7 +1,9 @@
-import { WriteStream} from "fs";
+import {createWriteStream, WriteStream} from "fs";
 import { create, DeclarationFlags, emit } from "dts-dom";
 
-const CreateHardFieldsTypes = (writeStream: WriteStream) => {
+const CreateHardFieldsTypes = (outDir: string) => {
+  const writeStream = createWriteStream(`${outDir}/appwrite.ts`);
+
   const types = [
     create.alias('Email', create.namedTypeReference('`${string}@${string}.${string}`')),
     create.alias('URL', create.namedTypeReference('`${string}://${string}.${string}`'))
