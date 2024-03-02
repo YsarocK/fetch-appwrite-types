@@ -31,3 +31,17 @@ await fetchNewTypes();
 ```
 
 It creates a file appwrite.ts in a /types folder (creates it if doen't exist).
+
+## Handled types
+
+| Appwrite type | Generated type (simple) | Generated type (hard) |
+|---------------|-------------------------|-----------------------|
+| String        | string                  | string                |
+| Integer       | integer                 | integer               |
+| Float         | integer                 | integer               |
+| Boolean       | boolean                 | boolean               |
+| DateTime      | Date                    | Date                  |
+| Email         | string                  | Email                 |
+| IP            | string                  | string                |
+| URL           | string                  | string                |
+| Enum          | Enum                    | Enum                  |
