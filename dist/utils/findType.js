@@ -13,9 +13,12 @@ const FindType = (attribute, outDir, intfName, hardTypes, includeDBName, dbName)
     if (attribute.type === null) {
         return create.property(attribute.key, type.null, attribute.required === false && DeclarationFlags.Optional);
     }
-    // handle null values
+    // handle date values
     if (attribute.type === "datetime") {
-        return create.property(attribute.key, create.namedTypeReference('Date'), attribute.required === false && DeclarationFlags.Optional);
+        if (hardTypes) {
+            return create.property(attribute.key, create.namedTypeReference('Date'), attribute.required === false && DeclarationFlags.Optional);
+        }
+        return create.property(attribute.key, type.string, attribute.required === false && DeclarationFlags.Optional);
     }
     // handle related collections
     if (attribute.relatedCollection) {
