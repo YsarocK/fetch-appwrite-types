@@ -3,3 +3,5 @@ node_modules
 /coverage
 .env
 /types
+.DS_Store
+.idea
