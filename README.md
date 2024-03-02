@@ -1,4 +1,6 @@
-# Generate Typesript file from your Appwrite Databases
+![fetch-appwrite-types banner](./readme-banner.jpg)
+
+# Generate Typesript types from Appwrite Databases
 
 ![npm](https://img.shields.io/npm/dt/fetch-appwrite-types)
 ![npm](https://img.shields.io/npm/v/fetch-appwrite-types)
