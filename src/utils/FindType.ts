@@ -9,7 +9,7 @@ import { createWriteStream } from "fs";
  * @returns The type (dts-dom) of the value
  */
 
-const FindType = (attribute: Attribute, outDir: string, intfName: string, hardTypes: boolean) => {
+const FindType = (attribute: Attribute, outDir: string, intfName: string, hardTypes: boolean, includeDBName: boolean, dbName: string) => {
   const writeStream = createWriteStream(`${outDir}/appwrite.ts`, { flags: 'a' });
 
   // handle null values
@@ -24,7 +24,7 @@ const FindType = (attribute: Attribute, outDir: string, intfName: string, hardTy
 
   // handle related collections
   if(attribute.relatedCollection) {
-    return create.property(attribute.key, create.namedTypeReference(attribute.relatedCollection), attribute.required === false && DeclarationFlags.Optional);
+    return create.property(attribute.key, create.namedTypeReference(includeDBName ? `${dbName}${attribute.relatedCollection}` : attribute.relatedCollection), attribute.required === false && DeclarationFlags.Optional);
   }
 
   // handle enums
