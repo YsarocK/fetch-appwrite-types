@@ -14,14 +14,14 @@ consola.wrapAll();
  * @param includeDBName Should exported interfaces include the database name as prefix? Defaults to false
  * @param hardTypes Email & URL strongly-typed. See doc for more. Defaults to false
  */
-const FetchNewTypes = async ({ outDir = './types', includeDBName = false , hardTypes = false }: FetchParameters = {}) => {
+const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", includeDBName = false , hardTypes = false }: FetchParameters = {}) => {
   // Create folder if non-existent
   if (!existsSync(outDir)) {
     mkdirSync(outDir);
   }
 
   // Empty the file
-  const writeStream = createWriteStream(`${outDir}/appwrite.ts`);
+  const writeStream = createWriteStream(`${outDir}/${outFileName}.ts`);
   writeStream.write("");
 
   if(hardTypes) {

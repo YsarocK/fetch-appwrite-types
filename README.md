@@ -41,6 +41,7 @@ await FetchNewTypes();
 | Name    | Default value            | Description                                       |
 |---------|--------------------------|---------------------------------------------------|
 | outDir  | ```"/types"``` | The folder where the type file will be generated  |
+| outFileName   | `"appwrite"`  | The name of the generated type file               |
 | includeDBName | ```false```              | Add the collection name at start of types         |
 | hardTypes   | ```false```              | Creates an Email type and an URL types. [More](#hard-types). |
 
@@ -48,13 +49,14 @@ await FetchNewTypes();
 #### CLI
 Params can be passed as arguments in any order, except for the outDir which might be followed by the path.
 ```bash
-npx fetch-appwrite-types includeDBName outDir /types hardTypes
+npx fetch-appwrite-types includeDBName outDir /types outFileName appwrite hardTypes
 ```
 
 #### Library
 ```javascript
 await FetchNewTypes({
     outDir: "/types",
+    outFileName: "appwrite",
     includeDBName: true,
     hardTypes: true
 })
