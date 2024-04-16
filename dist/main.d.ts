@@ -5,5 +5,5 @@ import type { FetchParameters } from "./types/index.js";
  * @param includeDBName Should exported interfaces include the database name as prefix? Defaults to false
  * @param hardTypes Email & URL strongly-typed. See doc for more. Defaults to false
  */
-declare const FetchNewTypes: ({ outDir, includeDBName, hardTypes }?: FetchParameters) => Promise<string>;
+declare const FetchNewTypes: ({ outDir, outFileName, includeDBName, hardTypes }?: FetchParameters) => Promise<string>;
 export { FetchNewTypes };

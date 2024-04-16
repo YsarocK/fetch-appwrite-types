@@ -13,4 +13,8 @@ if (args.includes("outDir")) {
     const outDirIndex = args.indexOf("outDir");
     opts.outDir = args[outDirIndex + 1];
 }
+if (args.includes("outFileName")) {
+    const outFileNameIndex = args.indexOf("outFileName");
+    opts.outFileName = args[outFileNameIndex + 1];
+}
 await FetchNewTypes(opts);
