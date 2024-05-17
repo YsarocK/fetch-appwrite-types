@@ -9,12 +9,22 @@ import CreateHardFieldsTypes from "./utils/CreateHardFieldsTypes.js";
 consola.wrapAll();
 
 /**
+ * 
+ * @param colName The name of the collection
+ * @returns The name of the collection, without "-" and with the first letter capitalized
+ */
+const FormatCollectionName = (str: string): string => {
+  return str.replace(/-([a-z])/gi, (match, nextChar) => nextChar.toUpperCase());
+}
+
+
+/**
  *
  * @param outDir The directory to output the types to. Defaults to "./types"
  * @param includeDBName Should exported interfaces include the database name as prefix? Defaults to false
  * @param hardTypes Email & URL strongly-typed. See doc for more. Defaults to false
  */
-const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", includeDBName = false , hardTypes = false }: FetchParameters = {}) => {
+const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", includeDBName = false, hardTypes = false }: FetchParameters = {}) => {
   // Create folder if non-existent
   if (!existsSync(outDir)) {
     mkdirSync(outDir);
@@ -24,7 +34,7 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
   const writeStream = createWriteStream(`${outDir}/${outFileName}.ts`);
   writeStream.write("");
 
-  if(hardTypes) {
+  if (hardTypes) {
     CreateHardFieldsTypes(outDir);
   }
 
@@ -46,7 +56,7 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
       consola.start(`Fetching types for collection "${col.name}"...`);
 
       // Create interface
-      const intfName = includeDBName ? `${databaseName}${collectionName}` : collectionName;
+      const intfName = FormatCollectionName(includeDBName ? `${databaseName}${collectionName}` : collectionName);
       const intf = create.interface(intfName, DeclarationFlags.Export);
 
       const { attributes } = await databasesClient.listAttributes(databaseId, collectionId);
