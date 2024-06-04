@@ -1,10 +1,18 @@
 import { create, emit, DeclarationFlags } from 'dts-dom';
 import { createWriteStream, existsSync, mkdirSync } from 'fs';
 import consola from "consola";
-import FindType from './utils/findType.js';
+import FindType from './utils/FindType.js';
 import { databasesClient } from './utils/appwrite.js';
 import CreateHardFieldsTypes from "./utils/CreateHardFieldsTypes.js";
 consola.wrapAll();
+/**
+ *
+ * @param colName The name of the collection
+ * @returns The name of the collection, without "-" and with the first letter capitalized
+ */
+const FormatCollectionName = (str) => {
+    return str.replace(/-([a-z])/gi, (match, nextChar) => nextChar.toUpperCase());
+};
 /**
  *
  * @param outDir The directory to output the types to. Defaults to "./types"
@@ -33,7 +41,7 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
             const { $id: collectionId, name: collectionName } = col;
             consola.start(`Fetching types for collection "${col.name}"...`);
             // Create interface
-            const intfName = includeDBName ? `${databaseName}${collectionName}` : collectionName;
+            const intfName = FormatCollectionName(includeDBName ? `${databaseName}${collectionName}` : collectionName);
             const intf = create.interface(intfName, DeclarationFlags.Export);
             const { attributes } = await databasesClient.listAttributes(databaseId, collectionId);
             for (const attr of attributes) {

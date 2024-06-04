@@ -1,7 +1,7 @@
 import { create, emit, DeclarationFlags } from 'dts-dom';
 import { createWriteStream, existsSync, mkdirSync } from 'fs';
 import consola from "consola";
-import FindType from './utils/findType.js';
+import FindType from './utils/FindType.js';
 import { databasesClient } from './utils/appwrite.js';
 import type { Attribute, FetchParameters } from "./types/index.js";
 import CreateHardFieldsTypes from "./utils/CreateHardFieldsTypes.js";
@@ -15,7 +15,7 @@ consola.wrapAll();
  */
 const FormatCollectionName = (str: string): string => {
   return str.replace(/-([a-z])/gi, (match, nextChar) => nextChar.toUpperCase());
-}
+};
 
 
 /**
