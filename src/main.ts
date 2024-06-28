@@ -69,7 +69,7 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
       }
 
       // Write interface to file
-      const writeStream = createWriteStream(`${outDir}/appwrite.ts`, { flags: 'a' });
+      const writeStream = createWriteStream(`${outDir}/${outFileName}.ts`, { flags: 'a' });
       writeStream.write(emit(intf));
 
       consola.success(`Types for collection "${col.name}" fetched successfully`);
