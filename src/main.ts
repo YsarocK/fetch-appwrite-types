@@ -69,7 +69,7 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
 
   consola.success('All types fetched successfully');
 
-  return 'file generated successfully';
+  return 'File generated successfully';
 };
 
 export { FetchNewTypes };
