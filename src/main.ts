@@ -2,21 +2,12 @@ import { create, emit, DeclarationFlags } from 'dts-dom';
 import { createWriteStream, existsSync, mkdirSync } from 'fs';
 import consola from "consola";
 import GenerateType from './utils/GenerateType.js';
+import FormatCollectionName from './utils/FormatCollectionName.js';
 import { databasesClient } from './utils/appwrite.js';
 import type { Attribute, FetchParameters } from "./types/index.js";
 import CreateHardFieldsTypes from "./utils/CreateHardFieldsTypes.js";
 
 consola.wrapAll();
-
-/**
- * 
- * @param colName The name of the collection
- * @returns The name of the collection, without "-" and with the first letter capitalized
- */
-const FormatCollectionName = (str: string): string => {
-  return str.replace(/-([a-z])/gi, (match, nextChar) => nextChar.toUpperCase());
-};
-
 
 /**
  *

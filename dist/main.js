@@ -20,7 +20,6 @@ const FormatCollectionName = (str) => {
  * @param hardTypes Email & URL strongly-typed. See doc for more. Defaults to false
  */
 const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", includeDBName = false, hardTypes = false } = {}) => {
-    // Create folder if non-existent
     if (!existsSync(outDir)) {
         mkdirSync(outDir);
     }
@@ -30,7 +29,6 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
     if (hardTypes) {
         CreateHardFieldsTypes(outDir);
     }
-    // Iterate over all databases & collections
     const { databases } = await databasesClient.list();
     consola.warn("All types are not actually handled. Some might return 'any' type. Please check the generated file and update the types manually. Check the documentation for more information.");
     for (const db of databases) {
