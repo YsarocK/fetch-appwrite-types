@@ -1,7 +1,7 @@
 import { create, emit, DeclarationFlags } from 'dts-dom';
 import { createWriteStream, existsSync, mkdirSync } from 'fs';
 import consola from "consola";
-import FindType from './utils/FindType.js';
+import GenerateType from './utils/GenerateType.js';
 import { databasesClient } from './utils/appwrite.js';
 import type { Attribute, FetchParameters } from "./types/index.js";
 import CreateHardFieldsTypes from "./utils/CreateHardFieldsTypes.js";
@@ -65,7 +65,7 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
         const attribute: Attribute = JSON.parse(JSON.stringify(attr));
 
         // Push attribute to interface
-        intf.members.push(FindType(attribute, outDir, intfName, hardTypes, includeDBName, databaseName));
+        intf.members.push(GenerateType(attribute, outDir, intfName, hardTypes, includeDBName, databaseName));
       }
 
       // Write interface to file

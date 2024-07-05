@@ -6,5 +6,5 @@ import type { Attribute } from '../types/index.js';
  * @param intfName The name of the interface
  * @returns The type (dts-dom) of the value
  */
-declare const FindType: (attribute: Attribute, outDir: string, intfName: string, hardTypes: boolean, includeDBName: boolean, dbName: string) => import("dts-dom").PropertyDeclaration;
-export default FindType;
+declare const GenerateType: (attribute: Attribute, outDir: string, intfName: string, hardTypes: boolean, includeDBName: boolean, dbName: string) => import("dts-dom").PropertyDeclaration;
+export default GenerateType;

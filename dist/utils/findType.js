@@ -7,7 +7,7 @@ import { createWriteStream } from "fs";
  * @param intfName The name of the interface
  * @returns The type (dts-dom) of the value
  */
-const FindType = (attribute, outDir, intfName, hardTypes, includeDBName, dbName) => {
+const GenerateType = (attribute, outDir, intfName, hardTypes, includeDBName, dbName) => {
     const writeStream = createWriteStream(`${outDir}/appwrite.ts`, { flags: 'a' });
     // handle null values
     if (attribute.type === null) {
@@ -66,4 +66,4 @@ const FindType = (attribute, outDir, intfName, hardTypes, includeDBName, dbName)
     }
     return create.property(attribute.key, type.any, attribute.required === false && DeclarationFlags.Optional);
 };
-export default FindType;
+export default GenerateType;

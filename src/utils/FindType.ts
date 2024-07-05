@@ -9,7 +9,7 @@ import { createWriteStream } from "fs";
  * @returns The type (dts-dom) of the value
  */
 
-const FindType = (attribute: Attribute, outDir: string, intfName: string, hardTypes: boolean, includeDBName: boolean, dbName: string) => {
+const GenerateType = (attribute: Attribute, outDir: string, intfName: string, hardTypes: boolean, includeDBName: boolean, dbName: string) => {
   const writeStream = createWriteStream(`${outDir}/appwrite.ts`, { flags: 'a' });
 
   // handle null values
@@ -84,4 +84,4 @@ const FindType = (attribute: Attribute, outDir: string, intfName: string, hardTy
   return create.property(attribute.key, type.any, attribute.required === false && DeclarationFlags.Optional);
 };
 
-export default FindType;
+export default GenerateType;
