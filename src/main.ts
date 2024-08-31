@@ -25,7 +25,7 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
   writeStream.write("");
 
   if (hardTypes) {
-    CreateHardFieldsTypes(outDir);
+    CreateHardFieldsTypes(`${outDir}/${outFileName}.ts`);
   }
 
   const { databases } = await databasesClient.list();

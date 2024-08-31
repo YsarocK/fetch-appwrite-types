@@ -1,2 +1,2 @@
-declare const CreateHardFieldsTypes: (outDir: string) => void;
+declare const CreateHardFieldsTypes: (outPath: string) => void;
 export default CreateHardFieldsTypes;

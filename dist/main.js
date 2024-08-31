@@ -20,7 +20,7 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
     const writeStream = createWriteStream(`${outDir}/${outFileName}.ts`);
     writeStream.write("");
     if (hardTypes) {
-        CreateHardFieldsTypes(outDir);
+        CreateHardFieldsTypes(`${outDir}/${outFileName}.ts`);
     }
     const { databases } = await databasesClient.list();
     consola.warn("All types are not actually handled. Some might return 'any' type. Please check the generated file and update the types manually. Check the documentation for more information.");
