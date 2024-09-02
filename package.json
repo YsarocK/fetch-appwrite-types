@@ -57,7 +57,7 @@
     "consola": "^3.2.3",
     "dotenv": "^16.4.5",
     "dts-dom": "^3.7.0",
-    "node-appwrite": "^14.0.0",
+    "node-appwrite": "^13.0.0",
     "ts-node": "^10.9.2"
   }
 }
