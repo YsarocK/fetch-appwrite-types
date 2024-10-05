@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {
     "deploy": "npm run prepare && np",
-    "dev": "npx ts-node src/bin/index.ts",
+    "dev": "node dist/bin/index.js",
     "build": "tsc",
     "lint": "eslint . --ext .ts",
     "lint:fix": "npm run lint -- --fix",

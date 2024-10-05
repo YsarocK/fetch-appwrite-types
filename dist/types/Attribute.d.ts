@@ -11,4 +11,5 @@ export type Attribute = {
     elements?: Array<string>;
     size?: number;
     relatedCollection?: string;
+    relationType?: string;
 };

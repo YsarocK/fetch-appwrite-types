@@ -1,5 +1,6 @@
 import { create, DeclarationFlags, emit, type } from 'dts-dom';
 import { createWriteStream } from "fs";
+import { databasesClient } from "../utils/appwrite.js";
 /**
  *
  * @param attribute The attribute to find the type of
@@ -7,7 +8,7 @@ import { createWriteStream } from "fs";
  * @param intfName The name of the interface
  * @returns The type (dts-dom) of the value
  */
-const GenerateType = (attribute, outDir, intfName, hardTypes, includeDBName, dbName) => {
+const GenerateType = async (attribute, outDir, intfName, hardTypes, includeDBName, dbName, dbId) => {
     const writeStream = createWriteStream(`${outDir}/appwrite.ts`, { flags: 'a' });
     // handle null values
     if (attribute.type === null) {
@@ -22,14 +23,18 @@ const GenerateType = (attribute, outDir, intfName, hardTypes, includeDBName, dbN
     }
     // handle related collections
     if (attribute.relatedCollection) {
-        return create.property(attribute.key, create.namedTypeReference(includeDBName ? `${dbName}${attribute.relatedCollection}` : attribute.relatedCollection), attribute.required === false && DeclarationFlags.Optional);
+        const result = await databasesClient.getCollection(dbId, attribute.relatedCollection);
+        const isMany = attribute.relationType.startsWith('many');
+        const reference = create.namedTypeReference(includeDBName ? `${dbName}${result.name}` : result.name);
+        const value = isMany ? type.array(reference) : reference;
+        return create.property(attribute.key, value, attribute.required === false && DeclarationFlags.Optional);
     }
     // handle enums
     if (attribute.format === 'enum') {
         const EnumName = `${intfName}_${attribute.key}`;
         const EnumType = create.enum(EnumName, false, DeclarationFlags.Export);
         attribute.elements.forEach((element) => {
-            EnumType.members.push(create.enumValue(element, element));
+            EnumType.members.push(create.enumValue(`"${element}"`, element));
         });
         writeStream.write(emit(EnumType));
         return create.property(attribute.key, create.namedTypeReference(EnumName), attribute.required === false && DeclarationFlags.Optional);

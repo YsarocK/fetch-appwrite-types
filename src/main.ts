@@ -54,7 +54,7 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
         const attribute: Attribute = JSON.parse(JSON.stringify(attr));
 
         // Push attribute to interface
-        intf.members.push(GenerateType(attribute, outDir, intfName, hardTypes, includeDBName, databaseName));
+        intf.members.push(await GenerateType(attribute, outDir, intfName, hardTypes, includeDBName, databaseName, databaseId));
       }
 
       // Write interface to file
