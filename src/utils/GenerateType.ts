@@ -33,7 +33,7 @@ const GenerateType = async (attribute: Attribute, outDir: string, intfName: stri
       dbId,
       attribute.relatedCollection
     );
-    const isMany = attribute.relationType.startsWith('many');
+    const isMany = (attribute.relationType.startsWith('manyToOne') && attribute.side === 'child') || (attribute.relationType === 'manyToMany') || ((attribute.relationType === 'oneToMany') && attribute.side === 'parent');
     const reference = create.namedTypeReference(includeDBName ? `${dbName}${result.name}` : result.name);
     const value = isMany ? type.array(reference) : reference;
     return create.property(attribute.key, value, attribute.required === false && DeclarationFlags.Optional);
@@ -52,7 +52,7 @@ const GenerateType = async (attribute: Attribute, outDir: string, intfName: stri
     return create.property(attribute.key, create.namedTypeReference(EnumName), attribute.required === false && DeclarationFlags.Optional);
   }
 
-  // handle email
+  // handle url
   if (attribute.format && attribute.format === 'url') {
     if(hardTypes) {
       return create.property(attribute.key, create.namedTypeReference('URL'), attribute.required === false && DeclarationFlags.Optional);

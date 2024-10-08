@@ -12,4 +12,5 @@ export type Attribute = {
     size?: number;
     relatedCollection?: string;
     relationType?: string;
+    side?: string;
 };
