@@ -4,6 +4,7 @@
  * @returns The name of the collection, without "-" and with the first letter capitalized
  */
 const FormatCollectionName = (str) => {
-    return str.replace(/-([a-z])/gi, (match, nextChar) => nextChar.toUpperCase());
+    const formattedString = str.replace(/-([a-z])/gi, (match, nextChar) => nextChar.toUpperCase());
+    return formattedString.charAt(0).toUpperCase() + formattedString.slice(1);
 };
 export default FormatCollectionName;

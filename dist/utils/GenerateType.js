@@ -1,14 +1,8 @@
 import { create, DeclarationFlags, emit, type } from 'dts-dom';
 import { createWriteStream } from "fs";
 import { databasesClient } from "../utils/appwrite.js";
-/**
- *
- * @param attribute The attribute to find the type of
- * @param outDir The directory to output the types to
- * @param intfName The name of the interface
- * @returns The type (dts-dom) of the value
- */
-const GenerateType = async (attribute, outDir, intfName, hardTypes, includeDBName, dbName, dbId) => {
+import FormatCollectionName from './FormatCollectionName.js';
+const GenerateType = async (attribute, outDir, typeIntfName, hardTypes, includeDBName, dbName, dbId, registerRelationship) => {
     const writeStream = createWriteStream(`${outDir}/appwrite.ts`, { flags: 'a' });
     // handle null values
     if (attribute.type === null) {
@@ -25,13 +19,16 @@ const GenerateType = async (attribute, outDir, intfName, hardTypes, includeDBNam
     if (attribute.relatedCollection) {
         const result = await databasesClient.getCollection(dbId, attribute.relatedCollection);
         const isMany = (attribute.relationType.startsWith('manyToOne') && attribute.side === 'child') || (attribute.relationType === 'manyToMany') || ((attribute.relationType === 'oneToMany') && attribute.side === 'parent');
-        const reference = create.namedTypeReference(includeDBName ? `${dbName}${result.name}` : result.name);
-        const value = isMany ? type.array(reference) : reference;
-        return create.property(attribute.key, value, attribute.required === false && DeclarationFlags.Optional);
+        const reference = {
+            type: create.namedTypeReference(`${FormatCollectionName(includeDBName ? `${dbName}${result.name}` : result.name)}Type`),
+            document: create.namedTypeReference(`${FormatCollectionName(includeDBName ? `${dbName}${result.name}` : result.name)}Document`)
+        };
+        registerRelationship({ key: attribute.key, value: isMany ? type.array(reference.document) : reference.document, required: attribute.required === false });
+        return create.property(attribute.key, (isMany ? type.array(reference.type) : reference.type), attribute.required === false && DeclarationFlags.Optional);
     }
     // handle enums
     if (attribute.format === 'enum') {
-        const EnumName = `${intfName}_${attribute.key}`;
+        const EnumName = `${typeIntfName}${attribute.key.charAt(0).toUpperCase() + attribute.key.slice(1)}`;
         const EnumType = create.enum(EnumName, false, DeclarationFlags.Export);
         attribute.elements.forEach((element) => {
             EnumType.members.push(create.enumValue(`"${element}"`, element));

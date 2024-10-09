@@ -1,4 +1,4 @@
-import { create, emit, DeclarationFlags } from 'dts-dom';
+import { create, emit, DeclarationFlags, NamedTypeReference, ArrayTypeReference } from 'dts-dom';
 import { createWriteStream, existsSync, mkdirSync } from 'fs';
 import consola from "consola";
 import GenerateType from './utils/GenerateType.js';
@@ -22,7 +22,7 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
 
   // Empty the file
   const writeStream = createWriteStream(`${outDir}/${outFileName}.ts`);
-  writeStream.write("");
+  writeStream.write("import { Models } from 'node-appwrite';\n\n");
 
   if (hardTypes) {
     CreateHardFieldsTypes(`${outDir}/${outFileName}.ts`);
@@ -40,26 +40,45 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
     const { collections } = await databasesClient.listCollections(databaseId);
 
     for (const col of collections) {
-      const { $id: collectionId, name: collectionName } = col;
+      const { $id: collectionId, name } = col;
 
-      consola.start(`Fetching types for collection "${col.name}"...`);
+      consola.start(`Fetching types for collection "${name}"...`);
 
-      // Create interface
-      const intfName = FormatCollectionName(includeDBName ? `${databaseName}${collectionName}` : collectionName);
-      const intf = create.interface(intfName, DeclarationFlags.Export);
+      const collectionName = `${FormatCollectionName(includeDBName ? `${databaseName}${name}` : name)}`;
 
-      const { attributes } = await databasesClient.listAttributes(databaseId, collectionId);
+      // Create type interface
+      const typeIntfName = `${collectionName}Type`;
+      const typeIntf = create.interface(typeIntfName, DeclarationFlags.Export);
+
+      const res = await databasesClient.listAttributes(databaseId, collectionId);
+      const attributes: Attribute[] = JSON.parse(JSON.stringify(res.attributes));
+
+      const relationships: {
+        key: string,
+        value: NamedTypeReference | ArrayTypeReference,
+        required: boolean
+      }[] = [];
 
       for (const attr of attributes) {
-        const attribute: Attribute = JSON.parse(JSON.stringify(attr));
-
         // Push attribute to interface
-        intf.members.push(await GenerateType(attribute, outDir, intfName, hardTypes, includeDBName, databaseName, databaseId));
+        typeIntf.members.push(await GenerateType(attr, outDir, typeIntfName, hardTypes, includeDBName, databaseName, databaseId, (params) => relationships.push(params)));
       }
 
-      // Write interface to file
+      // Write type interface to file
       const writeStream = createWriteStream(`${outDir}/${outFileName}.ts`, { flags: 'a' });
-      writeStream.write(emit(intf));
+      writeStream.write(emit(typeIntf));
+
+      // Create document interface
+      const documentIntfName = `${collectionName}Document `;
+      const documentIntf = create.interface(documentIntfName, DeclarationFlags.Export);
+      documentIntf.baseTypes = [typeIntf, create.namedTypeReference('Models.Document') as any];
+
+      relationships.forEach((relationship) => {
+        documentIntf.members.push(create.property(relationship.key, relationship.value, relationship.required === false && DeclarationFlags.Optional));
+      });
+
+      // Write document interface to file
+      writeStream.write(emit(documentIntf));
 
       consola.success(`Types for collection "${col.name}" fetched successfully`);
     }
