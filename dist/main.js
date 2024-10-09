@@ -16,9 +16,29 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
     if (!existsSync(outDir)) {
         mkdirSync(outDir);
     }
+    const packagesInstalled = {
+        server: false,
+        client: false
+    };
+    try {
+        import.meta.resolve('node-appwrite');
+        packagesInstalled.server = true;
+    }
+    catch (e) {
+        consola.warn('"node-appwrite" package is not installed. Trying to use the client package"');
+        try {
+            import.meta.resolve('appwrite');
+            consola.warn('"appwrite" package is installed. Using it instead');
+            packagesInstalled.client = true;
+        }
+        catch (e) {
+            consola.error('"appwrite" package is not installed. Please install it to continue');
+            return;
+        }
+    }
     // Empty the file
     const writeStream = createWriteStream(`${outDir}/${outFileName}.ts`);
-    writeStream.write("import { Models } from 'node-appwrite';\n\n");
+    writeStream.write(`import { Models } from '${packagesInstalled.server ? 'node-appwrite' : 'appwrite'}';\n\n`);
     if (hardTypes) {
         CreateHardFieldsTypes(`${outDir}/${outFileName}.ts`);
     }
