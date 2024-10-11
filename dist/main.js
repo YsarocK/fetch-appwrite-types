@@ -33,14 +33,14 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
         }
         catch (e) {
             consola.error('"appwrite" package is not installed. Please install it to continue');
-            return;
+            throw new Error('"appwrite" or "node-appwrite" packages are not installed. Please install one to continue');
         }
     }
     // Empty the file
     const writeStream = createWriteStream(`${outDir}/${outFileName}.ts`);
     writeStream.write(`import { Models } from '${packagesInstalled.server ? 'node-appwrite' : 'appwrite'}';\n\n`);
     if (hardTypes) {
-        CreateHardFieldsTypes(`${outDir}/${outFileName}.ts`);
+        CreateHardFieldsTypes(writeStream);
     }
     const { databases } = await databasesClient.list();
     consola.warn("All types are not actually handled. Some might return 'any' type. Please check the generated file and update the types manually. Check the documentation for more information.");
