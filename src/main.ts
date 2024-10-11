@@ -43,7 +43,7 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
 
   // Empty the file
   const writeStream = createWriteStream(`${outDir}/${outFileName}.ts`);
-  writeStream.write(`import { Models } from '${packagesInstalled.server ? 'node-appwrite' : 'appwrite'}';\n\n`);
+  writeStream.write(`import type { Models } from '${packagesInstalled.server ? 'node-appwrite' : 'appwrite'}';\n\n`);
 
   if (hardTypes) {
     CreateHardFieldsTypes(writeStream);
