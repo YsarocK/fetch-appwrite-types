@@ -12,7 +12,7 @@ consola.wrapAll();
  * @param includeDBName Should exported interfaces include the database name as prefix? Defaults to false
  * @param hardTypes Email & URL strongly-typed. See doc for more. Defaults to false
  */
-const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", includeDBName = false, hardTypes = false } = {}) => {
+const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", includeDBName = false, hardTypes = true } = {}) => {
     if (!existsSync(outDir)) {
         mkdirSync(outDir);
     }
@@ -40,11 +40,13 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
     }
     // Empty the file
     const writeStreamNull = createWriteStream(`${outDir}/${outFileName}.ts`);
-    writeStreamNull.write(`import type { Models } from '${packagesInstalled.server ? 'node-appwrite' : 'appwrite'}';\n\n`);
+    await new Promise((resolve) => {
+        writeStreamNull.write(`import type { Models } from '${packagesInstalled.server ? 'node-appwrite' : 'appwrite'}';\n\n`, () => resolve());
+    });
     writeStreamNull.end();
     const writeStream = createWriteStream(`${outDir}/${outFileName}.ts`, { flags: 'a' });
     if (hardTypes) {
-        CreateHardFieldsTypes(writeStream);
+        await CreateHardFieldsTypes(writeStream);
     }
     const { databases } = await databasesClient.list();
     consola.warn("All types are not actually handled. Some might return 'any' type. Please check the generated file and update the types manually. Check the documentation for more information.");

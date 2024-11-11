@@ -45,13 +45,15 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
 
   // Empty the file
   const writeStreamNull = createWriteStream(`${outDir}/${outFileName}.ts`);
-  writeStreamNull.write(`import type { Models } from '${packagesInstalled.server ? 'node-appwrite' : 'appwrite'}';\n\n`);
+  await new Promise<void>((resolve) => {
+    writeStreamNull.write(`import type { Models } from '${packagesInstalled.server ? 'node-appwrite' : 'appwrite'}';\n\n`, () => resolve());
+  });
   writeStreamNull.end();
 
   const writeStream = createWriteStream(`${outDir}/${outFileName}.ts`, { flags: 'a' });
 
   if (hardTypes) {
-    CreateHardFieldsTypes(writeStream);
+    await CreateHardFieldsTypes(writeStream);
   }
 
   const { databases } = await databasesClient.list();

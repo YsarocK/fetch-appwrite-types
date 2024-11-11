@@ -7,10 +7,12 @@ const CreateHardFieldsTypes = async (writeStream: WriteStream) => {
     create.alias('URL', create.namedTypeReference('`${string}://${string}.${string}`'))
   ];
 
-  types.forEach(type => {
+  for (const type of types) {
     type.flags = DeclarationFlags.Export;
-    writeStream.write(emit(type));
-  });
+    await new Promise<void>((resolve) => {
+      writeStream.write(emit(type), () => resolve());
+    });
+  }
 };
 
 export default CreateHardFieldsTypes;
