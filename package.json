@@ -12,7 +12,7 @@
     "build": "tsc",
     "lint": "eslint . --ext .ts",
     "lint:fix": "pnpm run lint -- --fix",
-    "test": "vitest",
+    "test": "vitest run",
     "prepare": "pnpm run lint && pnpm run build",
     "prepublishOnly": "pnpm run test && pnpm run lint",
     "preversion": "pnpm run lint",
