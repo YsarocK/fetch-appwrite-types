@@ -20,25 +20,25 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
         server: false,
         client: false
     };
-    try {
-        import.meta.resolve('node-appwrite');
-        packagesInstalled.server = true;
-    }
-    catch (e) {
-        consola.warn('"node-appwrite" package is not installed. Trying to use the client package"');
-        try {
-            import.meta.resolve('appwrite');
-            consola.warn('"appwrite" package is installed. Using it instead');
-            packagesInstalled.client = true;
-        }
-        catch (e) {
-            consola.error('"appwrite" package is not installed. Please install it to continue');
-            throw new Error('"appwrite" or "node-appwrite" packages are not installed. Please install one to continue');
-        }
-    }
+    // try {
+    //   import.meta.resolve('node-appwrite');
+    //   packagesInstalled.server = true;
+    // } catch (e) {
+    //   consola.warn('"node-appwrite" package is not installed. Trying to use the client package"');
+    //   try {
+    //     import.meta.resolve('appwrite');
+    //     consola.warn('"appwrite" package is installed. Using it instead');
+    //     packagesInstalled.client = true;
+    //   } catch (e) {
+    //     consola.error('"appwrite" package is not installed. Please install it to continue');
+    //     throw new Error('"appwrite" or "node-appwrite" packages are not installed. Please install one to continue');
+    //   }
+    // }
     // Empty the file
-    const writeStream = createWriteStream(`${outDir}/${outFileName}.ts`);
-    writeStream.write(`import type { Models } from '${packagesInstalled.server ? 'node-appwrite' : 'appwrite'}';\n\n`);
+    const writeStreamNull = createWriteStream(`${outDir}/${outFileName}.ts`);
+    writeStreamNull.write(`import type { Models } from '${packagesInstalled.server ? 'node-appwrite' : 'appwrite'}';\n\n`);
+    writeStreamNull.end();
+    const writeStream = createWriteStream(`${outDir}/${outFileName}.ts`, { flags: 'a' });
     if (hardTypes) {
         CreateHardFieldsTypes(writeStream);
     }
@@ -63,8 +63,9 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
                 typeIntf.members.push(await GenerateType(attr, outDir, typeIntfName, hardTypes, includeDBName, databaseName, databaseId, (params) => relationships.push(params)));
             }
             // Write type interface to file
-            const writeStream = createWriteStream(`${outDir}/${outFileName}.ts`, { flags: 'a' });
-            writeStream.write(emit(typeIntf));
+            await new Promise((resolve) => {
+                writeStream.write(emit(typeIntf), () => resolve());
+            });
             // Create document interface
             const documentIntfName = `${collectionName}Document `;
             const documentIntf = create.interface(documentIntfName, DeclarationFlags.Export);
@@ -73,7 +74,10 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
                 documentIntf.members.push(create.property(relationship.key, relationship.value, relationship.required === false && DeclarationFlags.Optional));
             });
             // Write document interface to file
-            writeStream.write(emit(documentIntf));
+            await new Promise((resolve) => {
+                writeStream.write(emit(documentIntf), () => resolve());
+            });
+            writeStreamNull.end();
             consola.success(`Types for collection "${col.name}" fetched successfully`);
         }
         consola.success(`Types for database "${db.name}" fetched successfully`);

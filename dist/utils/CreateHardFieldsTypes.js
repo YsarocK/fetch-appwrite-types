@@ -1,5 +1,5 @@
 import { create, DeclarationFlags, emit } from "dts-dom";
-const CreateHardFieldsTypes = (writeStream) => {
+const CreateHardFieldsTypes = async (writeStream) => {
     const types = [
         create.alias('Email', create.namedTypeReference('`${string}@${string}.${string}`')),
         create.alias('URL', create.namedTypeReference('`${string}://${string}.${string}`'))

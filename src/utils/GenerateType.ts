@@ -1,6 +1,6 @@
 import { ArrayTypeReference, create, DeclarationFlags, emit, NamedTypeReference, type } from 'dts-dom';
 import type { Attribute } from '../types/index.js';
-import { createWriteStream } from "fs";
+import { createWriteStream, WriteStream } from "fs";
 import { databasesClient } from "../utils/appwrite.js";
 import FormatCollectionName from './FormatCollectionName.js';
 /**
@@ -19,9 +19,7 @@ interface registerRelationship {
   }): void;
 }
 
-const GenerateType = async (attribute: Attribute, outDir: string, typeIntfName: string, hardTypes: boolean, includeDBName: boolean, dbName: string, dbId: string, registerRelationship: registerRelationship) => {
-  const writeStream = createWriteStream(`${outDir}/appwrite.ts`, { flags: 'a' });
-
+const GenerateType = async (attribute: Attribute, writeStream: WriteStream, typeIntfName: string, hardTypes: boolean, includeDBName: boolean, dbName: string, dbId: string, registerRelationship: registerRelationship) => {
   // handle null values
   if (attribute.type === null) {
     return create.property(attribute.key, type.null, attribute.required === false && DeclarationFlags.Optional);
