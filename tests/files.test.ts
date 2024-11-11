@@ -18,22 +18,22 @@ describe('file generation', () => {
     }
   });
 
-  test(`should generate a file in ${initialOutDir}/${initialFileName}.ts`, async () => {
+  test(`--should generate a file in ${initialOutDir}/${initialFileName}.ts`, async () => {
     await FetchNewTypes({ outDir: initialOutDir, outFileName: initialFileName, includeDBName: false, hardTypes: false });
     expect(existsSync(`${initialOutDir}/${initialFileName}.ts`)).toBe(true);
   });
 
-  test(`should generate a file in a ${newOutDir} directory`, async () => {
+  test(`--should generate a file in a ${newOutDir} directory`, async () => {
     await FetchNewTypes({ outDir: newOutDir, outFileName: initialFileName, includeDBName: false, hardTypes: false });
     expect(existsSync(`${newOutDir}/${initialFileName}.ts`)).toBe(true);
   });
 
-  test(`should generate a file with the name ${newOutFileName}.ts`, async () => {
+  test(`--should generate a file with the name ${newOutFileName}.ts`, async () => {
     await FetchNewTypes({ outDir: initialOutDir, outFileName: newOutFileName, includeDBName: false, hardTypes: false });
     expect(existsSync(`${initialOutDir}/${newOutFileName}.ts`)).toBe(true);
   });
 
-  test(`should generate a file in a ${newOutDir} directory with the name ${newOutFileName}.ts`, async () => {
+  test(`--should generate a file in a ${newOutDir} directory with the name ${newOutFileName}.ts`, async () => {
     await FetchNewTypes({ outDir: newOutDir, outFileName: newOutFileName, includeDBName: false, hardTypes: false });
     expect(existsSync(`${newOutDir}/${newOutFileName}.ts`)).toBe(true);
   });
@@ -70,7 +70,7 @@ describe('types literal validation', () => {
     }
   });
 
-  test(`default`, async () => {
+  test(`--default`, async () => {
     await FetchNewTypes();
     const generatedContent = normalizeContent(readFileSync(`${initialOutDir}/${initialFileName}.ts`, 'utf-8'));
     const referenceContent = normalizeContent(readFileSync(referenceFilePath, 'utf-8'));
@@ -78,7 +78,7 @@ describe('types literal validation', () => {
     expect(generatedContent).toBe(referenceContent);
   });
 
-  test(`with hardTypes`, async () => {
+  test(`--with hardTypes`, async () => {
     await FetchNewTypes({ hardTypes: true });
     const generatedContent = normalizeContent(readFileSync(`${initialOutDir}/${initialFileName}.ts`, 'utf-8'));
     const referenceContent = normalizeContent(readFileSync(referenceFilePathHardTypes, 'utf-8'));
@@ -86,11 +86,18 @@ describe('types literal validation', () => {
     expect(generatedContent).toBe(referenceContent);
   });
 
-  test(`with dbName`, async () => {
+  test(`--with dbName`, async () => {
     await FetchNewTypes({ includeDBName: true });
     const generatedContent = normalizeContent(readFileSync(`${initialOutDir}/${initialFileName}.ts`, 'utf-8'));
     const referenceContent = normalizeContent(readFileSync(referenceFilePathIncludeDbName, 'utf-8'));
 
     expect(generatedContent).toBe(referenceContent);
+  });
+
+  afterAll(() => {
+    if (existsSync(initialOutDir)) {
+      readdirSync(initialOutDir).forEach(file => unlinkSync(`${initialOutDir}/${file}`));
+      rmSync(initialOutDir, { recursive: true, force: true });
+    }
   });
 });
