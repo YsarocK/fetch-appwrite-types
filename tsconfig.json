@@ -14,7 +14,7 @@
         "target": "ES2017",
         "moduleResolution": "NodeNext",
         "outDir": "dist",
-        "declaration": true
+        "declaration": true,
     },
     "include": ["src", "src/bin"],
     "exclude": ["node_modules", "**/__tests__/*"]

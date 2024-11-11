@@ -20,20 +20,24 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
         server: false,
         client: false
     };
-    // try {
-    //   import.meta.resolve('node-appwrite');
-    //   packagesInstalled.server = true;
-    // } catch (e) {
-    //   consola.warn('"node-appwrite" package is not installed. Trying to use the client package"');
-    //   try {
-    //     import.meta.resolve('appwrite');
-    //     consola.warn('"appwrite" package is installed. Using it instead');
-    //     packagesInstalled.client = true;
-    //   } catch (e) {
-    //     consola.error('"appwrite" package is not installed. Please install it to continue');
-    //     throw new Error('"appwrite" or "node-appwrite" packages are not installed. Please install one to continue');
-    //   }
-    // }
+    if (process.env.NODE_ENV !== 'test') {
+        try {
+            import.meta.resolve('node-appwrite');
+            packagesInstalled.server = true;
+        }
+        catch (e) {
+            consola.warn('"node-appwrite" package is not installed. Trying to use the client package"');
+            try {
+                import.meta.resolve('appwrite');
+                consola.warn('"appwrite" package is installed. Using it instead');
+                packagesInstalled.client = true;
+            }
+            catch (e) {
+                consola.error('"appwrite" package is not installed. Please install it to continue');
+                throw new Error('"appwrite" or "node-appwrite" packages are not installed. Please install one to continue');
+            }
+        }
+    }
     // Empty the file
     const writeStreamNull = createWriteStream(`${outDir}/${outFileName}.ts`);
     writeStreamNull.write(`import type { Models } from '${packagesInstalled.server ? 'node-appwrite' : 'appwrite'}';\n\n`);
@@ -60,7 +64,7 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
             const relationships = [];
             for (const attr of attributes) {
                 // Push attribute to interface
-                typeIntf.members.push(await GenerateType(attr, outDir, typeIntfName, hardTypes, includeDBName, databaseName, databaseId, (params) => relationships.push(params)));
+                typeIntf.members.push(await GenerateType(attr, writeStream, typeIntfName, hardTypes, includeDBName, databaseName, databaseId, (params) => relationships.push(params)));
             }
             // Write type interface to file
             await new Promise((resolve) => {

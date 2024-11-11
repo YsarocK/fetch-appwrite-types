@@ -25,21 +25,23 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
     client: false
   };
 
-  // try {
-  //   import.meta.resolve('node-appwrite');
-  //   packagesInstalled.server = true;
-  // } catch (e) {
-  //   consola.warn('"node-appwrite" package is not installed. Trying to use the client package"');
+  if (process.env.NODE_ENV !== 'test') {
+    try {
+      import.meta.resolve('node-appwrite');
+      packagesInstalled.server = true;
+    } catch (e) {
+      consola.warn('"node-appwrite" package is not installed. Trying to use the client package"');
 
-  //   try {
-  //     import.meta.resolve('appwrite');
-  //     consola.warn('"appwrite" package is installed. Using it instead');
-  //     packagesInstalled.client = true;
-  //   } catch (e) {
-  //     consola.error('"appwrite" package is not installed. Please install it to continue');
-  //     throw new Error('"appwrite" or "node-appwrite" packages are not installed. Please install one to continue');
-  //   }
-  // }
+      try {
+        import.meta.resolve('appwrite');
+        consola.warn('"appwrite" package is installed. Using it instead');
+        packagesInstalled.client = true;
+      } catch (e) {
+        consola.error('"appwrite" package is not installed. Please install it to continue');
+        throw new Error('"appwrite" or "node-appwrite" packages are not installed. Please install one to continue');
+      }
+    }
+  }
 
   // Empty the file
   const writeStreamNull = createWriteStream(`${outDir}/${outFileName}.ts`);
