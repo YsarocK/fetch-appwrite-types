@@ -10,6 +10,7 @@ consola.wrapAll();
  *
  * @param outDir The directory to output the types to. Defaults to "./types"
  * @param includeDBName Should exported interfaces include the database name as prefix? Defaults to false
+ * @param outFileName The name of the file to output the types to. Defaults to "appwrite"
  * @param hardTypes Email & URL strongly-typed. See doc for more. Defaults to false
  */
 const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", includeDBName = false, hardTypes = false } = {}) => {
