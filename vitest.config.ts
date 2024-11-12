@@ -4,7 +4,7 @@ import { loadEnv } from 'vite';
 export default defineConfig({
   test: {
     reporters: [
-      // 'verbose',
+      'verbose',
     ],
     env: loadEnv('', process.cwd(), ''),
   },
