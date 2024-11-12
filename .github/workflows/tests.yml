@@ -15,7 +15,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18' # Assure-toi que cette version est compatible avec ton projet
+          node-version: '20'
 
       - name: Install pnpm
         run: npm install -g pnpm
@@ -23,5 +23,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Set environment variables
+        env:
+          APPWRITE_ENDPOINT: ${{ secrets.APPWRITE_ENDPOINT }}
+          APPWRITE_PROJECT_ID: ${{ secrets.APPWRITE_PROJECT_ID }}
+          APPWRITE_API_KEY: ${{ secrets.APPWRITE_API_KEY }}
+        run: echo "Environment variables set"
+
       - name: Run tests
-        run: pnpm test # Assure-toi que ton script de test est configuré dans package.json pour pnpm
+        env:
+          APPWRITE_ENDPOINT: ${{ secrets.APPWRITE_ENDPOINT }}
+          APPWRITE_PROJECT_ID: ${{ secrets.APPWRITE_PROJECT_ID }}
+          APPWRITE_API_KEY: ${{ secrets.APPWRITE_API_KEY }}
+        run: pnpm test
