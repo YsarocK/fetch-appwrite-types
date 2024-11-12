@@ -21,7 +21,7 @@ describe('cli args', () => {
     const outDir = './cli';
     const outFile = `${outDir}/appwrite.ts`;
 
-    await execa('cd', ['../']);
+    await execa('sh', ['-c', 'cd ../'], { shell: true });
     await execa('node', ['dist/bin/index.js', 'outDir', outDir]);
 
     const generatedContent = normalizeContent(readFileSync(outFile, 'utf-8'));
@@ -35,7 +35,7 @@ describe('cli args', () => {
     const outDir = './cli-custom';
     const outFile = `${outDir}/cli-default.ts`;
 
-    await execa('cd', ['../']);
+    await execa('sh', ['-c', 'cd ../'], { shell: true });
     await execa('node', ['dist/bin/index.js', 'outDir', outDir, 'outFileName', 'cli-default']);
 
     const generatedContent = normalizeContent(readFileSync(outFile, 'utf-8'));
@@ -49,7 +49,7 @@ describe('cli args', () => {
     const outDir = './cli';
     const outFile = `${outDir}/cli-default-custom-name.ts`;
 
-    await execa('cd', ['../']);
+    await execa('sh', ['-c', 'cd ../'], { shell: true });
     await execa('node', ['dist/bin/index.js', 'outDir', outDir, 'outFileName', 'cli-default-custom-name']);
 
     const generatedContent = normalizeContent(readFileSync(outFile, 'utf-8'));
@@ -63,7 +63,7 @@ describe('cli args', () => {
     const outDir = './cli';
     const outFile = `${outDir}/cli-default-hard-types.ts`;
 
-    await execa('cd', ['../']);
+    await execa('sh', ['-c', 'cd ../'], { shell: true });
     await execa('node', ['dist/bin/index.js', 'outDir', outDir, 'outFileName', 'cli-default-hard-types', 'hardTypes']);
 
     const generatedContent = normalizeContent(readFileSync(outFile, 'utf-8'));
@@ -77,7 +77,7 @@ describe('cli args', () => {
     const outDir = './cli';
     const outFile = `${outDir}/cli-default-db-names.ts`;
 
-    await execa('cd', ['../']);
+    await execa('sh', ['-c', 'cd ../'], { shell: true });
     await execa('node', ['dist/bin/index.js', 'outDir', outDir, 'outFileName', 'cli-default-db-names', 'includeDBName']);
 
     const generatedContent = normalizeContent(readFileSync(outFile, 'utf-8'));
