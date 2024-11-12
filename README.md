@@ -4,6 +4,7 @@
 
 ![npm](https://img.shields.io/npm/dt/fetch-appwrite-types)
 ![npm](https://img.shields.io/npm/v/fetch-appwrite-types)
+![tests](https://github.com/YsarocK/fetch-appwrite-types/actions/workflows/tests.yml/badge.svg)
 
 ## Quick usage
 Make sure ton add the following values to your ```.env``` :
