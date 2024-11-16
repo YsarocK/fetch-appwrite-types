@@ -1,28 +1,28 @@
 import type { Models } from 'appwrite';
 
-export enum LibrarybooksTypeType {
+export enum LibraryBooksTypeType {
     "bd" = "bd",
     "roman" = "roman",
     "manga" = "manga",
 }
 
-export interface LibrarybooksType {
+export interface LibraryBooksType {
     name: string;
-    type?: LibrarybooksTypeType;
+    type?: LibraryBooksTypeType;
     date?: string;
     email?: string;
     url?: string;
 }
 
-export interface LibrarybooksDocument extends LibrarybooksType, Models.Document {
+export interface LibraryBooksDocument extends LibraryBooksType, Models.Document {
 }
 
-export interface LibraryothersType {
+export interface LibraryOthersBooksType {
     Xdrdh?: number;
-    books?: LibrarybooksType;
+    books?: LibraryBooksType;
 }
 
-export interface LibraryothersDocument extends LibraryothersType, Models.Document {
-    books: LibrarybooksDocument;
+export interface LibraryOthersBooksDocument extends LibraryOthersBooksType, Models.Document {
+    books: LibraryBooksDocument;
 }
 

@@ -73,7 +73,7 @@ const FetchNewTypes = async ({ outDir = './types', outFileName = "appwrite", inc
 
       consola.start(`Fetching types for collection "${name}"...`);
 
-      const collectionName = `${FormatCollectionName(includeDBName ? `${databaseName}${name}` : name)}`;
+      const collectionName = `${FormatCollectionName(includeDBName ? `${databaseName}${name.charAt(0).toUpperCase() + name.slice(1)}` : name)}`;
 
       // Create type interface
       const typeIntfName = `${collectionName}Type`;
