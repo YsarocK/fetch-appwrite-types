@@ -18,8 +18,8 @@ const GenerateType = async (attribute, writeStream, typeIntfName, hardTypes, inc
         const result = await databasesClient.getCollection(dbId, attribute.relatedCollection);
         const isMany = (attribute.relationType.startsWith('manyToOne') && attribute.side === 'child') || (attribute.relationType === 'manyToMany') || ((attribute.relationType === 'oneToMany') && attribute.side === 'parent');
         const reference = {
-            type: create.namedTypeReference(`${FormatCollectionName(includeDBName ? `${dbName}${result.name}` : result.name)}Type`),
-            document: create.namedTypeReference(`${FormatCollectionName(includeDBName ? `${dbName}${result.name}` : result.name)}Document`)
+            type: create.namedTypeReference(`${FormatCollectionName(includeDBName ? `${dbName}${result.name.charAt(0).toUpperCase() + result.name.slice(1)}` : result.name)}Type`),
+            document: create.namedTypeReference(`${FormatCollectionName(includeDBName ? `${dbName}${result.name.charAt(0).toUpperCase() + result.name.slice(1)}` : result.name)}Document`)
         };
         registerRelationship({ key: attribute.key, value: isMany ? type.array(reference.document) : reference.document, required: attribute.required === false });
         return create.property(attribute.key, (isMany ? type.array(reference.type) : reference.type), attribute.required === false && DeclarationFlags.Optional);

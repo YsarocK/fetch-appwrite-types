@@ -17,12 +17,12 @@ export interface BooksType {
 export interface BooksDocument extends BooksType, Models.Document {
 }
 
-export interface OthersType {
+export interface OthersBooksType {
     Xdrdh?: number;
     books?: BooksType;
 }
 
-export interface OthersDocument extends OthersType, Models.Document {
+export interface OthersBooksDocument extends OthersBooksType, Models.Document {
     books: BooksDocument;
 }
 
