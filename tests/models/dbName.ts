@@ -20,6 +20,7 @@ export interface LibraryBooksDocument extends LibraryBooksType, Models.Document 
 export interface LibraryOthersBooksType {
     Xdrdh?: number;
     books?: LibraryBooksType;
+    stringArray?: string[];
 }
 
 export interface LibraryOthersBooksDocument extends LibraryOthersBooksType, Models.Document {

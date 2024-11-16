@@ -48,13 +48,19 @@ const GenerateType = async (attribute, writeStream, typeIntfName, hardTypes, inc
         }
         return create.property(attribute.key, type.string, attribute.required === false && DeclarationFlags.Optional);
     }
+    // handle arrays
+    if (attribute.array === true) {
+        const types = {
+            integer: type.number,
+            double: type.number,
+            string: type.string,
+            boolean: type.boolean,
+        };
+        return create.property(attribute.key, type.array(type[types[attribute.type]]), attribute.required === false && DeclarationFlags.Optional);
+    }
     // handle strings
     if (attribute.type === 'string') {
         return create.property(attribute.key, type.string, attribute.required === false && DeclarationFlags.Optional);
-    }
-    // handle arrays
-    if (attribute.array === true) {
-        return create.property(attribute.key, type.array(type.any), attribute.required === false && DeclarationFlags.Optional);
     }
     // handle integer & double
     if (attribute.type === 'integer' || attribute.type === 'double') {

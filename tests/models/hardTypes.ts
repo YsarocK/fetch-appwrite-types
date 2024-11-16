@@ -24,6 +24,7 @@ export interface BooksDocument extends BooksType, Models.Document {
 export interface OthersBooksType {
     Xdrdh?: number;
     books?: BooksType;
+    stringArray?: string[];
 }
 
 export interface OthersBooksDocument extends OthersBooksType, Models.Document {
